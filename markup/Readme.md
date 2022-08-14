@@ -8,3 +8,4 @@
    * `property-not-logged.html` - пользователь не авторизован;
 * `favorites.html` - страница «Favorites» (Избранное):
    * `favorites-empty.html` - пустая страница.
+ 
