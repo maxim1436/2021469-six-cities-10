@@ -1,47 +1,28 @@
 import { OfferType } from '../../types/types';
 import { convertRatingToStars, toUpFirstLetter } from '../../utils';
+import PremiumBanner from '../premium-banner/premium-banner';
+import FavoriteOfferBanner from '../favorite-offer-banner/favorite-offer-banner';
 
 const FIRST_INDEX_ELEMENT = 0;
 
 type CardIconProps = {
   offer: OfferType;
-  onMouseOver: (offer: OfferType) => void;
-  onClick: (offer: OfferType) => void;
+  setMouseFocusOffer: (offer: OfferType) => void;
+  setChoosenOffer: (offer: OfferType) => void;
 }
 
-function CardIcon ({offer, onMouseOver, onClick}: CardIconProps): JSX.Element {
+function CardIcon ({offer, setMouseFocusOffer, setChoosenOffer}: CardIconProps): JSX.Element {
 
-  function PremiumBanner () {
-    return (
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
-    );
-  }
+  const onMouseOver = () => {
+    setMouseFocusOffer(offer);
+  };
 
-  function FavoriteOfferBanner () {
-    if (offer.isFavorite) {
-      return (
-        <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-          <svg className="place-card__bookmark-icon" width="18" height="19">
-            <use xlinkHref="#icon-bookmark"></use>
-          </svg>
-          <span className="visually-hidden">In bookmarks</span>
-        </button>
-      );
-    }
+  const onClick = () => {
+    setChoosenOffer(offer);
+  };
 
-    return (
-      <button className="place-card__bookmark-button button" type="button">
-        <svg className="place-card__bookmark-icon" width="18" height="19">
-          <use xlinkHref="#icon-bookmark"></use>
-        </svg>
-        <span className="visually-hidden">In bookmarks</span>
-      </button>
-    );
-  }
   return (
-    <article onMouseOver={() => onMouseOver(offer)} onClick = {() => onClick(offer)} className="cities__card place-card">
+    <article onMouseOver={onMouseOver} onClick = {onClick} className="cities__card place-card">
       {
         offer.isPremium
           ? < PremiumBanner/>
@@ -58,7 +39,7 @@ function CardIcon ({offer, onMouseOver, onClick}: CardIconProps): JSX.Element {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          {FavoriteOfferBanner()}
+          {<FavoriteOfferBanner isOfferFavorite = {offer.isFavorite}/>}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

@@ -1,5 +1,6 @@
 import {OfferType} from '../../types/types';
 import { convertRatingToStars, toUpFirstLetter } from '../../utils';
+import PremiumBanner from '../premium-banner/premium-banner';
 
 const FIRST_INDEX_ELEMENT = 0;
 
@@ -8,15 +9,6 @@ type FavoriteCardIconProps = {
 }
 
 function FavoritesCardIcon ({favoriteOffer}: FavoriteCardIconProps): JSX.Element {
-
-  function PremiumBanner () {
-    return (
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
-    );
-  }
-
   return (
     <article className="favorites__card place-card">
       {

@@ -2,6 +2,8 @@ import { OfferType, ReviewType } from '../../types/types';
 import { convertRatingToStars, toUpFirstLetter } from '../../utils';
 import Review from '../../components/review/review';
 import ReviewForm from '../../components/review-form/review-form';
+import PremiumBannerForPropertyScreen from '../../components/premium-banner-for-property-screen/premium-banner-for-property-screen';
+import FavoriteOfferBannerForPropertyScreen from '../../components/favorite-offer-banner-for-property-screen/favorite-offer-banner-for-property-screen';
 
 type PropertyScreenProps = {
   offer: OfferType;
@@ -9,37 +11,6 @@ type PropertyScreenProps = {
 }
 
 function PropertyScreen ({offer, reviews}: PropertyScreenProps): JSX.Element {
-
-  function PremiumBanner () {
-    return (
-      <div className="property__mark">
-        <span>Premium</span>
-      </div>
-    );
-  }
-
-  function FavoriteOfferBanner () {
-    if (offer.isFavorite) {
-      return (
-        <button className="property__bookmark-button  button" type="button">
-          <svg className="property__bookmark-icon--active" width="31" height="33">
-            <use xlinkHref="#icon-bookmark"></use>
-          </svg>
-          <span className="visually-hidden">To bookmarks</span>
-        </button>
-      );
-    }
-
-    return (
-      <button className="property__bookmark-button  button" type="button">
-        <svg className="property__bookmark-icon" width="31" height="33">
-          <use xlinkHref="#icon-bookmark"></use>
-        </svg>
-        <span className="visually-hidden">To bookmarks</span>
-      </button>
-    );
-  }
-
   return (
     <div className="page">
       <header className="header">
@@ -91,14 +62,14 @@ function PropertyScreen ({offer, reviews}: PropertyScreenProps): JSX.Element {
             <div className="property__wrapper">
               {
                 offer.isPremium
-                  ? < PremiumBanner/>
+                  ? < PremiumBannerForPropertyScreen/>
                   : null
               }
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                {FavoriteOfferBanner()}
+                {<FavoriteOfferBannerForPropertyScreen isOfferFavorite = {offer.isFavorite}/>}
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

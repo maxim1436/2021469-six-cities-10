@@ -11,7 +11,6 @@ type MainPageScreenProps = {
 
 function MainPageScreen ({offersCount, offers, setChoosenOffer}: MainPageScreenProps): JSX.Element {
   const [, setMouseFocusOffer] = useState({});
-
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -107,7 +106,7 @@ function MainPageScreen ({offersCount, offers, setChoosenOffer}: MainPageScreenP
                     const keyValue = `${offer.id}`;
                     return (
                       <Link key={keyValue} to={`/offer/:${offer.id}`} title={`/offer/:${offer.id}`}>
-                        <CardIcon onClick={setChoosenOffer} onMouseOver={setMouseFocusOffer} offer={offer} />
+                        <CardIcon setChoosenOffer = {setChoosenOffer} setMouseFocusOffer = {setMouseFocusOffer} offer={offer} />
                       </Link>
                     );
                   })
