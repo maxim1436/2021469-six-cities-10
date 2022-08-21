@@ -1,10 +1,16 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import CardIcon from '../../components/card-icon/card-icon';
+import { OfferType } from '../../types/types';
 
 type MainPageScreenProps = {
   offersCount: number;
+  offers: OfferType[];
+  setChoosenOffer: (offerId: OfferType) => void;
 }
 
-function MainPageScreen ({offersCount}: MainPageScreenProps): JSX.Element {
+function MainPageScreen ({offersCount, offers, setChoosenOffer}: MainPageScreenProps): JSX.Element {
+  const [, setMouseFocusOffer] = useState({});
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -95,11 +101,16 @@ function MainPageScreen ({offersCount}: MainPageScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <CardIcon/>
-                <CardIcon/>
-                <CardIcon/>
-                <CardIcon/>
-                <CardIcon/>
+                {
+                  offers.map((offer) => {
+                    const keyValue = `${offer.id}`;
+                    return (
+                      <Link key={keyValue} to={`/offer/:${offer.id}`} title={`/offer/:${offer.id}`}>
+                        <CardIcon setChoosenOffer = {setChoosenOffer} setMouseFocusOffer = {setMouseFocusOffer} offer={offer} />
+                      </Link>
+                    );
+                  })
+                }
               </div>
             </section>
             <div className="cities__right-section">
