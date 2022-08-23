@@ -8,6 +8,8 @@ export type OfferType = {
   isFavorite: boolean;
   rating: number;
   id: string;
+  lat: number;
+  lng: number;
 };
 
 export type ReviewType = {

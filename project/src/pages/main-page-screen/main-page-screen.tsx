@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CardIcon from '../../components/card-icon/card-icon';
 import { OfferType } from '../../types/types';
+import Map from '../../components/map/map';
 
 type MainPageScreenProps = {
   offersCount: number;
@@ -114,7 +115,11 @@ function MainPageScreen ({offersCount, offers, setChoosenOffer}: MainPageScreenP
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                {
+                  <Map points = {offers}/>
+                }
+              </section>
             </div>
           </div>
         </div>
