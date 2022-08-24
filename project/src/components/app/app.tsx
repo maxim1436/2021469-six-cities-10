@@ -8,6 +8,7 @@ import ErrorScreen from '../../pages/error-screen/error-screen';
 import PropertyScreen from '../../pages/property-screen/property-screen';
 import PrivateRoute from '../../components/private-route/private-route';
 import { OfferType, ReviewType } from '../../types/types';
+import ScrollToTop from '../../components/scroll-to-top/scroll-to-top';
 
 type AppScreenProps = {
   offersCount: number;
@@ -19,6 +20,7 @@ function App({offersCount, offers, reviews}: AppScreenProps): JSX.Element {
   const [choosenOffer, setChoosenOffer] = useState(offers[0]);
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route
           path = {AppRoute.Main}
@@ -39,8 +41,10 @@ function App({offersCount, offers, reviews}: AppScreenProps): JSX.Element {
               authorizationStatus = {AuthorizationStatus.Auth}
             >
               <PropertyScreen
+                neighbourhoodOffers = {offers}
                 offer = {choosenOffer}
                 reviews = {reviews}
+                setChoosenOffer = {setChoosenOffer}
               />
             </PrivateRoute>
           }

@@ -1,11 +1,10 @@
 import { useState, useEffect, MutableRefObject } from 'react';
-import { Map } from 'leaflet';
+import { Map, LayerGroup } from 'leaflet';
 import leaflet from 'leaflet';
 import { OfferType } from '../types/types';
 
-function useMap (mapRef: MutableRefObject<HTMLElement | null>, mapCenter: OfferType): Map | null {
+function useMap (mapRef: MutableRefObject<HTMLElement | null>, mapCenter: OfferType, arr?: LayerGroup | null): Map | null {
   const [map, setMap] = useState<Map | null>(null);
-
   useEffect(() => {
     if (mapRef.current !== null && map === null) {
       const instance = leaflet.map(mapRef.current, {
@@ -13,7 +12,7 @@ function useMap (mapRef: MutableRefObject<HTMLElement | null>, mapCenter: OfferT
           lat: mapCenter.lat,
           lng: mapCenter.lng,
         },
-        zoom: 10,
+        zoom: 11,
       });
 
       leaflet
@@ -24,11 +23,9 @@ function useMap (mapRef: MutableRefObject<HTMLElement | null>, mapCenter: OfferT
           },
         )
         .addTo(instance);
-
       setMap(instance);
     }
   }, [mapRef, map, mapCenter]);
-
   return map;
 }
 

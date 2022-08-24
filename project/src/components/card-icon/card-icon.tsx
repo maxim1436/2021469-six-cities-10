@@ -7,14 +7,16 @@ const FIRST_INDEX_ELEMENT = 0;
 
 type CardIconProps = {
   offer: OfferType;
-  setMouseFocusOffer: (offer: OfferType) => void;
+  setMouseFocusOffer?: (offer: OfferType) => void;
   setChoosenOffer: (offer: OfferType) => void;
 }
 
 function CardIcon ({offer, setMouseFocusOffer, setChoosenOffer}: CardIconProps): JSX.Element {
 
   const onMouseOver = () => {
-    setMouseFocusOffer(offer);
+    if(setMouseFocusOffer) {
+      setMouseFocusOffer(offer);
+    }
   };
 
   const onClick = () => {

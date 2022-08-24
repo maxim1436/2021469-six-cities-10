@@ -117,7 +117,7 @@ function MainPageScreen ({offersCount, offers, setChoosenOffer}: MainPageScreenP
             <div className="cities__right-section">
               <section className="cities__map map">
                 {
-                  <Map points = {offers}/>
+                  <Map mapCenter = {offers[0]} points = {offers} styleSettings = {{height: '980px'}}/>
                 }
               </section>
             </div>
