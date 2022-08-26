@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { OfferType, ReviewType } from '../../types/types';
 import { convertRatingToStars, toUpFirstLetter } from '../../utils';
 import Review from '../../components/review/review';
@@ -6,17 +5,17 @@ import ReviewForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
 import PremiumBannerForPropertyScreen from '../../components/premium-banner-for-property-screen/premium-banner-for-property-screen';
 import FavoriteOfferBannerForPropertyScreen from '../../components/favorite-offer-banner-for-property-screen/favorite-offer-banner-for-property-screen';
-import CardIcon from '../../components/card-icon/card-icon';
+import NeighbourhoodOffers from '../../components/neighbourhood-offers/neighbourhood-offers';
 
 type PropertyScreenProps = {
-  neighbourhoodOffers: OfferType[];
+  offers: OfferType[];
   offer: OfferType;
   reviews: ReviewType[];
   setChoosenOffer: (offerId: OfferType) => void;
 }
 
-function PropertyScreen ({neighbourhoodOffers, offer, reviews, setChoosenOffer}: PropertyScreenProps): JSX.Element {
-  neighbourhoodOffers = neighbourhoodOffers.filter((neighbourhoodOffer) => neighbourhoodOffer.id !== offer.id);
+function PropertyScreen ({offers, offer, reviews, setChoosenOffer}: PropertyScreenProps): JSX.Element {
+  const neighbourhoodOffers = offers.filter((neighbourhoodOffer) => neighbourhoodOffer.id !== offer.id);
 
   return (
     <div className="page">
@@ -188,18 +187,7 @@ function PropertyScreen ({neighbourhoodOffers, offer, reviews, setChoosenOffer}:
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              {
-                neighbourhoodOffers.map((neighbourhoodOffer) => {
-                  const keyValue = `${neighbourhoodOffer.id}`;
-                  return (
-                    <Link key={keyValue} to={`/offer/:${neighbourhoodOffer.id}`} title={`/offer/:${neighbourhoodOffer.id}`}>
-                      <CardIcon setChoosenOffer = {setChoosenOffer} offer={neighbourhoodOffer} />
-                    </Link>
-                  );
-                })
-              }
-            </div>
+            {<NeighbourhoodOffers neighbourhoodOffers = {neighbourhoodOffers} setChoosenOffer = {setChoosenOffer}/>}
           </section>
         </div>
       </main>

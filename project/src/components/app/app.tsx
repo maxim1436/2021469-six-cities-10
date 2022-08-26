@@ -41,7 +41,7 @@ function App({offersCount, offers, reviews}: AppScreenProps): JSX.Element {
               authorizationStatus = {AuthorizationStatus.Auth}
             >
               <PropertyScreen
-                neighbourhoodOffers = {offers}
+                offers = {offers}
                 offer = {choosenOffer}
                 reviews = {reviews}
                 setChoosenOffer = {setChoosenOffer}
