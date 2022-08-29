@@ -10,6 +10,8 @@ export const offers: OfferType[] = [
     isFavorite: true,
     rating: +(Math.random() * 5).toFixed(1),
     id: (Math.random() * 10000).toFixed(),
+    lat: 52.3909553943508,
+    lng: 4.85309666406198,
   }, {
     photos: ['img/room.jpg'],
     isPremium: false,
@@ -19,6 +21,8 @@ export const offers: OfferType[] = [
     isFavorite: true,
     rating: +(Math.random() * 5).toFixed(1),
     id: (Math.random() * 10000).toFixed(),
+    lat: 52.369553943508,
+    lng: 4.85309666406198,
   }, {
     photos: ['img/room.jpg'],
     isPremium: false,
@@ -28,6 +32,8 @@ export const offers: OfferType[] = [
     isFavorite: false,
     rating: +(Math.random() * 5).toFixed(1),
     id: (Math.random() * 10000).toFixed(),
+    lat: 52.3909553943508,
+    lng: 4.929309666406198,
   }, {
     photos: ['img/room.jpg'],
     isPremium: true,
@@ -37,5 +43,7 @@ export const offers: OfferType[] = [
     isFavorite: false,
     rating: +(Math.random() * 5).toFixed(1),
     id: (Math.random() * 10000).toFixed(),
+    lat: 52.3809553943508,
+    lng: 4.939309666406198,
   },
 ];
