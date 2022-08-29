@@ -13,7 +13,7 @@ type CardIconProps = {
 
 function CardIcon ({offer, setMouseFocusOffer, setChoosenOffer}: CardIconProps): JSX.Element {
 
-  const onMouseOver = () => {
+  const onMouseEnter = () => {
     if(setMouseFocusOffer) {
       setMouseFocusOffer(offer);
     }
@@ -24,7 +24,7 @@ function CardIcon ({offer, setMouseFocusOffer, setChoosenOffer}: CardIconProps):
   };
 
   return (
-    <article onMouseOver={onMouseOver} onClick = {onClick} className="cities__card place-card">
+    <article onMouseEnter={onMouseEnter} onClick = {onClick} className="cities__card place-card">
       {
         offer.isPremium
           ? < PremiumBanner/>

@@ -11,12 +11,11 @@ import { OfferType, ReviewType } from '../../types/types';
 import ScrollToTop from '../../components/scroll-to-top/scroll-to-top';
 
 type AppScreenProps = {
-  offersCount: number;
   offers: OfferType[];
   reviews: ReviewType[];
 }
 
-function App({offersCount, offers, reviews}: AppScreenProps): JSX.Element {
+function App({offers, reviews}: AppScreenProps): JSX.Element {
   const [choosenOffer, setChoosenOffer] = useState(offers[0]);
   return (
     <BrowserRouter>
@@ -24,7 +23,7 @@ function App({offersCount, offers, reviews}: AppScreenProps): JSX.Element {
       <Routes>
         <Route
           path = {AppRoute.Main}
-          element = {<MainPageScreen offersCount = {offersCount} offers = {offers} setChoosenOffer = {setChoosenOffer}/>}
+          element = {<MainPageScreen setChoosenOffer = {setChoosenOffer}/>}
         />
         <Route
           path = {AppRoute.Login}
