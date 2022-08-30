@@ -12,6 +12,7 @@ export const offers: OfferType[] = [
     id: (Math.random() * 10000).toFixed(),
     lat: 52.3909553943508,
     lng: 4.85309666406198,
+    city: 'Paris',
   }, {
     photos: ['img/room.jpg'],
     isPremium: false,
@@ -23,6 +24,7 @@ export const offers: OfferType[] = [
     id: (Math.random() * 10000).toFixed(),
     lat: 52.369553943508,
     lng: 4.85309666406198,
+    city: 'Amsterdam',
   }, {
     photos: ['img/room.jpg'],
     isPremium: false,
@@ -34,6 +36,7 @@ export const offers: OfferType[] = [
     id: (Math.random() * 10000).toFixed(),
     lat: 52.3909553943508,
     lng: 4.929309666406198,
+    city: 'Paris',
   }, {
     photos: ['img/room.jpg'],
     isPremium: true,
@@ -45,5 +48,6 @@ export const offers: OfferType[] = [
     id: (Math.random() * 10000).toFixed(),
     lat: 52.3809553943508,
     lng: 4.939309666406198,
+    city: 'Amsterdam',
   },
 ];

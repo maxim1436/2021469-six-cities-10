@@ -10,6 +10,7 @@ export type OfferType = {
   id: string;
   lat: number;
   lng: number;
+  city: string;
 };
 
 export type ReviewType = {
