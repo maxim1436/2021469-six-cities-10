@@ -31,7 +31,6 @@ function Map ({selectedPoint, mapCenter, points, styleSettings}: MapProps): JSX.
   const mapRef = useRef(null);
   const [choosenOffer, setChoosenOffer] = useState({});
   const map = useMap(mapRef, mapCenter);
-
   if (mapCenter !== choosenOffer) {
     markerGroupsArray.forEach((group) => {
       group.clearLayers();
@@ -43,8 +42,8 @@ function Map ({selectedPoint, mapCenter, points, styleSettings}: MapProps): JSX.
     if (map) {
       points.forEach((point) => {
         const marker = new Marker({
-          lat: point.lat,
-          lng: point.lng
+          lat: point.location.latitude,
+          lng: point.location.longitude
         });
 
         marker

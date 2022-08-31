@@ -18,8 +18,17 @@ export enum SortType {
   TopRatedFirst = 'Top_Rated_First',
 }
 
+export enum APIRoute {
+  Offers = '/hotels',
+  Favorite = '/favorite',
+  Login = '/login',
+  Logout = '/logout',
+}
+
 export const URL_MARKER_DEFAULT =
   'img/pin.svg';
 
 export const URL_MARKER_CURRENT =
   'img/pin-active.svg';
+
+export const TIMEOUT_SHOW_ERROR = 3000;
