@@ -5,7 +5,7 @@ import CardIcon from '../../components/card-icon/card-icon';
 import { OfferType } from '../../types/types';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
-import PlacesSorting from '../../components/places-sorting/places-sorting';
+import PlacesSortingForm from '../../components/places-sorting/places-sorting-form';
 
 type MainPageScreenProps = {
   setChoosenOffer: (offerId: OfferType) => void;
@@ -59,7 +59,7 @@ function MainPageScreen ({setChoosenOffer}: MainPageScreenProps): JSX.Element {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {choosenCity}</b>
               {
-                <PlacesSorting/>
+                <PlacesSortingForm/>
               }
               <div className="cities__places-list places__list tabs__content">
                 {

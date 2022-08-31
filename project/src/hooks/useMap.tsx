@@ -1,18 +1,18 @@
 import { useState, useEffect, MutableRefObject } from 'react';
-import { Map, LayerGroup } from 'leaflet';
+import { Map } from 'leaflet';
 import leaflet from 'leaflet';
 import { OfferType } from '../types/types';
 
-function useMap (mapRef: MutableRefObject<HTMLElement | null>, mapCenter: OfferType, arr?: LayerGroup | null): Map | null {
+function useMap (mapRef: MutableRefObject<HTMLElement | null>, mapCenter: OfferType): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   useEffect(() => {
     if (mapRef.current !== null && map === null) {
       const instance = leaflet.map(mapRef.current, {
         center: {
-          lat: mapCenter.lat,
-          lng: mapCenter.lng,
+          lat: mapCenter.city.location.latitude,
+          lng: mapCenter.city.location.longitude,
         },
-        zoom: 11,
+        zoom: mapCenter.city.location.zoom,
       });
 
       leaflet

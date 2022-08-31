@@ -1,8 +1,8 @@
 import FavoriteCardIcon from '../../components/favorite-card-icon/favorite-card-icon';
-import { offers } from '../../mocks/offers';
-
+import { useAppSelector } from '../../hooks';
 
 function FavoritesScreen (): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
   return (
     <div className="page">
       <header className="header">

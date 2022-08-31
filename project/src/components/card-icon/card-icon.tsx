@@ -32,7 +32,7 @@ function CardIcon ({offer, setMouseFocusOffer, setChoosenOffer}: CardIconProps):
       }
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="/#">
-          <img className="place-card__image" src={offer.photos[FIRST_INDEX_ELEMENT]} width="260" height="200" alt="Place img"/>
+          <img className="place-card__image" src={offer.images[FIRST_INDEX_ELEMENT]} width="260" height="200" alt="Place img"/>
         </a>
       </div>
       <div className="place-card__info">
@@ -52,7 +52,7 @@ function CardIcon ({offer, setMouseFocusOffer, setChoosenOffer}: CardIconProps):
         <h2 className="place-card__name">
           <a href="/#">{offer.title}</a>
         </h2>
-        <p className="place-card__type">{toUpFirstLetter(offer.typeOfPlace)}</p>
+        <p className="place-card__type">{toUpFirstLetter(offer.type)}</p>
       </div>
     </article>
   );

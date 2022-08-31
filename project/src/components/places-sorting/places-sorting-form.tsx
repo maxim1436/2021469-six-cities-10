@@ -4,12 +4,14 @@ import { SortType } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { sortByPopular, sortByLowToHigh, sortByHighToLow, sortByTopRatedFirst } from '../../store/action';
 
-function PlacesSorting (): JSX.Element {
+function PlacesSortingForm (): JSX.Element {
 
   const [isChoosing, setIsChoosing] = useState(false);
   const [currentSortType, setCurrentSortType] = useState('Popular');
   const [humanizeSortType, setHumanizeSortType] = useState('Popular');
   const dispatch = useAppDispatch();
+
+  const updateIsChoosingState = () => setIsChoosing(true);
 
   const chooseSortType = (evt: MouseEvent<HTMLLIElement>) => {
     setIsChoosing(!isChoosing);
@@ -17,7 +19,6 @@ function PlacesSorting (): JSX.Element {
     if (currentSortType === evt.currentTarget.id) {
       return;
     }
-
     switch (evt.currentTarget.id) {
       case SortType.Popular:
         dispatch(sortByPopular());
@@ -44,7 +45,7 @@ function PlacesSorting (): JSX.Element {
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by </span>
-      <span className="places__sorting-type" tabIndex={0} onClick={() => setIsChoosing(true)}>
+      <span className="places__sorting-type" tabIndex={0} onClick={updateIsChoosingState}>
         {
           humanizeSortType
         }
@@ -64,5 +65,5 @@ function PlacesSorting (): JSX.Element {
   );
 }
 
-export default PlacesSorting;
+export default PlacesSortingForm;
 

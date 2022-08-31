@@ -18,7 +18,7 @@ function FavoritesCardIcon ({favoriteOffer}: FavoriteCardIconProps): JSX.Element
       }
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <a href="/#">
-          <img className="place-card__image" src={favoriteOffer.photos[FIRST_INDEX_ELEMENT]} width="150" height="110" alt="Place img"/>
+          <img className="place-card__image" src={favoriteOffer.images[FIRST_INDEX_ELEMENT]} width="150" height="110" alt="Place img"/>
         </a>
       </div>
       <div className="favorites__card-info place-card__info">
@@ -43,7 +43,7 @@ function FavoritesCardIcon ({favoriteOffer}: FavoriteCardIconProps): JSX.Element
         <h2 className="place-card__name">
           <a href="/#">{favoriteOffer.title}</a>
         </h2>
-        <p className="place-card__type">{toUpFirstLetter(favoriteOffer.typeOfPlace)}</p>
+        <p className="place-card__type">{toUpFirstLetter(favoriteOffer.type)}</p>
       </div>
     </article>
   );

@@ -1,5 +1,6 @@
 import { OfferType, ReviewType } from '../../types/types';
 import { convertRatingToStars, toUpFirstLetter } from '../../utils';
+import { useAppSelector } from '../../hooks';
 import Review from '../../components/review/review';
 import ReviewForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
@@ -8,13 +9,13 @@ import FavoriteOfferBannerForPropertyScreen from '../../components/favorite-offe
 import NeighbourhoodOffers from '../../components/neighbourhood-offers/neighbourhood-offers';
 
 type PropertyScreenProps = {
-  offers: OfferType[];
   offer: OfferType;
   reviews: ReviewType[];
   setChoosenOffer: (offerId: OfferType) => void;
 }
 
-function PropertyScreen ({offers, offer, reviews, setChoosenOffer}: PropertyScreenProps): JSX.Element {
+function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
   const neighbourhoodOffers = offers.filter((neighbourhoodOffer) => neighbourhoodOffer.id !== offer.id);
 
   return (
@@ -53,7 +54,7 @@ function PropertyScreen ({offers, offer, reviews, setChoosenOffer}: PropertyScre
           <div className="property__gallery-container container">
             <div className="property__gallery">
               {
-                offer.photos.map((photo) => {
+                offer.images.map((photo) => {
                   const keyValue = `${offer.id}-${photo}`;
                   return (
                     <div key={keyValue} className="property__image-wrapper">
@@ -86,7 +87,7 @@ function PropertyScreen ({offers, offer, reviews, setChoosenOffer}: PropertyScre
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {toUpFirstLetter(offer.typeOfPlace)}
+                  {toUpFirstLetter(offer.type)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
                   3 Bedrooms
