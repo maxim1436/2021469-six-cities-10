@@ -7,6 +7,8 @@ import Map from '../../components/map/map';
 import PremiumBannerForPropertyScreen from '../../components/premium-banner-for-property-screen/premium-banner-for-property-screen';
 import FavoriteOfferBannerForPropertyScreen from '../../components/favorite-offer-banner-for-property-screen/favorite-offer-banner-for-property-screen';
 import NeighbourhoodOffers from '../../components/neighbourhood-offers/neighbourhood-offers';
+import UserInfo from '../../components/user-info/user-info';
+import { AuthorizationStatus } from '../../const';
 
 type PropertyScreenProps = {
   offer: OfferType;
@@ -15,8 +17,7 @@ type PropertyScreenProps = {
 }
 
 function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
-  const neighbourhoodOffers = offers.filter((neighbourhoodOffer) => neighbourhoodOffer.id !== offer.id);
+  const {authorizationStatus, offers} = useAppSelector((state) => state);
 
   return (
     <div className="page">
@@ -28,23 +29,9 @@ function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps)
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
               </a>
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="/#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="/#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            {
+              <UserInfo />
+            }
           </div>
         </div>
       </header>
@@ -54,14 +41,15 @@ function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps)
           <div className="property__gallery-container container">
             <div className="property__gallery">
               {
-                offer.images.map((photo) => {
-                  const keyValue = `${offer.id}-${photo}`;
-                  return (
-                    <div key={keyValue} className="property__image-wrapper">
-                      <img className="property__image" src={photo} alt="Ph studio"/>
-                    </div>
-                  );
-                })
+                offer.images.slice(0, 6)
+                  .map((photo) => {
+                    const keyValue = `${offer.id}-${photo}`;
+                    return (
+                      <div key={keyValue} className="property__image-wrapper">
+                        <img className="property__image" src={photo} alt="Ph studio"/>
+                      </div>
+                    );
+                  })
               }
             </div>
           </div>
@@ -90,10 +78,10 @@ function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps)
                   {toUpFirstLetter(offer.type)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  3 Bedrooms
+                  {offer.bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max 4 adults
+                  Max {offer.maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">
@@ -103,57 +91,34 @@ function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps)
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  <li className="property__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="property__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="property__inside-item">
-                    Towels
-                  </li>
-                  <li className="property__inside-item">
-                    Heating
-                  </li>
-                  <li className="property__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="property__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="property__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-                    Fridge
-                  </li>
+                  {
+                    offer.goods.map((good) => {
+                      const keyValue = `${offer.id}-${good}`;
+                      return(
+                        <li key={keyValue} className="property__inside-item">
+                          {good}
+                        </li>
+                      );
+                    })
+                  }
                 </ul>
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar"/>
+                    <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
                   </div>
                   <span className="property__user-name">
-                    Angelina
+                    {offer.host.name}
                   </span>
                   <span className="property__user-status">
-                    Pro
+                    {offer.host.isPro ? 'Pro' : ''}
                   </span>
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                  </p>
-                  <p className="property__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+                    {offer.description}
                   </p>
                 </div>
               </div>
@@ -170,7 +135,9 @@ function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps)
                   }
                 </ul>
                 {
-                  <ReviewForm />
+                  authorizationStatus === AuthorizationStatus.Auth
+                    ? <ReviewForm />
+                    : null
                 }
               </section>
             </div>
@@ -179,7 +146,7 @@ function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps)
             {
               <Map
                 mapCenter = {offer}
-                points = {neighbourhoodOffers}
+                points = {offers}
                 styleSettings = {{height: '579px', width: '1144px', marginLeft: 'auto', marginRight: 'auto'}}
               />
             }
@@ -188,7 +155,7 @@ function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps)
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            {<NeighbourhoodOffers neighbourhoodOffers = {neighbourhoodOffers} setChoosenOffer = {setChoosenOffer}/>}
+            {<NeighbourhoodOffers neighbourhoodOffers = {offers} setChoosenOffer = {setChoosenOffer}/>}
           </section>
         </div>
       </main>

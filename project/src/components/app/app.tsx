@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import { AppRoute } from '../../const';
 import MainPageScreen from '../../pages/main-page-screen/main-page-screen';
@@ -12,6 +12,8 @@ import { ReviewType } from '../../types/types';
 import ScrollToTop from '../../components/scroll-to-top/scroll-to-top';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import {isCheckedAuth} from '../../utils';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 type AppScreenProps = {
   reviews: ReviewType[];
@@ -19,51 +21,52 @@ type AppScreenProps = {
 
 function App({reviews}: AppScreenProps): JSX.Element {
   const [choosenOffer, setChoosenOffer] = useState(Object);
-  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state);
-
-  if (isCheckedAuth(authorizationStatus) || isDataLoaded) {
+  const {authorizationStatus, isDataLoaded, offers} = useAppSelector((state) => state);
+  if (isCheckedAuth(authorizationStatus) || isDataLoaded || !offers.length) {
     return (
       <LoadingScreen />
     );
-  }
-
-  return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route
-          path = {AppRoute.Main}
-          element = {<MainPageScreen setChoosenOffer = {setChoosenOffer}/>}
-        />
-        <Route
-          path = {AppRoute.Login}
-          element = {<LoginScreen />}
-        />
-        <Route
-          path = {AppRoute.Favorites}
-          element = {<FavoritesScreen />}
-        />
-        <Route
-          path = {AppRoute.Room}
-          element = {
-            <PrivateRoute
-              authorizationStatus = {authorizationStatus}
-            >
+  } else {
+    return (
+      <HistoryRouter history={browserHistory}>
+        <ScrollToTop />
+        <Routes>
+          <Route
+            path = {AppRoute.Main}
+            element = {<MainPageScreen setChoosenOffer = {setChoosenOffer}/>}
+          />
+          <Route
+            path = {AppRoute.Login}
+            element = {<LoginScreen />}
+          />
+          <Route
+            path = {AppRoute.Favorites}
+            element = {
+              <PrivateRoute
+                authorizationStatus = {authorizationStatus}
+              >
+                <FavoritesScreen />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path = {AppRoute.Room}
+            element = {
               <PropertyScreen
                 offer = {choosenOffer}
                 reviews = {reviews}
                 setChoosenOffer = {setChoosenOffer}
               />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path = "*"
-          element = {<ErrorScreen />}
-        />
-      </Routes>
-    </BrowserRouter>
-  );
+            }
+          />
+          <Route
+            path = "*"
+            element = {<ErrorScreen />}
+          />
+        </Routes>
+      </HistoryRouter>
+    );
+  }
 }
 
 export default App;

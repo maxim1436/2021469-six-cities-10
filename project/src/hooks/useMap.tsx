@@ -5,7 +5,12 @@ import { OfferType } from '../types/types';
 
 function useMap (mapRef: MutableRefObject<HTMLElement | null>, mapCenter: OfferType): Map | null {
   const [map, setMap] = useState<Map | null>(null);
+  const [prevMapCenter, setPrevMapCenter] = useState(mapCenter);
   useEffect(() => {
+    if (prevMapCenter !== mapCenter && map !== null) {
+      map.panTo(new leaflet.LatLng(mapCenter.city.location.latitude, mapCenter.city.location.longitude));
+      setPrevMapCenter(mapCenter);
+    }
     if (mapRef.current !== null && map === null) {
       const instance = leaflet.map(mapRef.current, {
         center: {
@@ -25,7 +30,7 @@ function useMap (mapRef: MutableRefObject<HTMLElement | null>, mapCenter: OfferT
         .addTo(instance);
       setMap(instance);
     }
-  }, [mapRef, map, mapCenter]);
+  }, [mapRef, map, mapCenter, prevMapCenter]);
   return map;
 }
 
