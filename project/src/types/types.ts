@@ -35,9 +35,14 @@ export type OfferType = {
 };
 
 export type ReviewType = {
-  avatar: string;
-  userName: string;
-  reviewsRating: number;
-  date: string;
-  textReview: string;
+  comment: string
+  date: string
+  id: number
+  rating: number
+  user: {
+    avatarUrl: string
+    id: number
+    isPro: boolean
+    name: string
+  }
 };

@@ -4,6 +4,7 @@ import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../services/api-actions';
 import {AuthData} from '../../types/auth-data';
 import {AppRoute} from '../../const';
+import Logo from '../../components/logo/logo';
 
 type LoginScreenProps = {
   routeName: string;
@@ -33,6 +34,7 @@ function LoginScreen ({routeName}: LoginScreenProps): JSX.Element {
         password: passwordRef.current.value,
       });
     }
+    navigate(routeName);
   };
 
   return (
@@ -41,9 +43,9 @@ function LoginScreen ({routeName}: LoginScreenProps): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
+              {
+                <Logo/>
+              }
             </div>
           </div>
         </div>
@@ -62,7 +64,7 @@ function LoginScreen ({routeName}: LoginScreenProps): JSX.Element {
                 <label className="visually-hidden">Password</label>
                 <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" required/>
               </div>
-              <button onSubmit={navigateToChoosenRoute} className="login__submit form__submit button" type="submit">Sign in</button>
+              <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">

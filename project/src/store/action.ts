@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { SortType } from '../const';
-import { OfferType } from '../types/types';
+import { OfferType, ReviewType } from '../types/types';
 import { AppRoute, AuthorizationStatus } from '../const';
 
 export const changeCityName = createAction('changeCityName', (value) => ({
@@ -30,4 +30,8 @@ export const setUserData = createAction('data/userInfos', (value) => ({
 
 export const setNearbyOffers = createAction<OfferType[]>('setNearbyOffers');
 
+export const getNewFavoriteProperty = createAction<OfferType>('getNewFavoriteProperty');
+
 export const setFavoriteOffers = createAction<OfferType[]>('setFavoritebyOffers');
+
+export const setComments = createAction<ReviewType[]>('setComments');

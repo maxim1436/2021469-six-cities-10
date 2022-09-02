@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import CardIcon from '../../components/card-icon/card-icon';
 import UserInfo from '../../components/user-info/user-info';
@@ -7,6 +6,7 @@ import { OfferType } from '../../types/types';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
 import PlacesSortingForm from '../../components/places-sorting/places-sorting-form';
+import Logo from '../../components/logo/logo';
 
 type MainPageScreenProps = {
   setChoosenOffer: (offerId: OfferType) => void;
@@ -22,9 +22,9 @@ function MainPageScreen ({setChoosenOffer}: MainPageScreenProps): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link header__logo-link--active" href="/#">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
+              {
+                <Logo/>
+              }
             </div>
             {
               <UserInfo/>
@@ -53,9 +53,7 @@ function MainPageScreen ({setChoosenOffer}: MainPageScreenProps): JSX.Element {
                   offers.map((offer) => {
                     const keyValue = `${offer.id}`;
                     return (
-                      <Link key={keyValue} to={`/offer/:${offer.id}`} title={`/offer/:${offer.id}`}>
-                        <CardIcon setChoosenOffer = {setChoosenOffer} setMouseFocusOffer = {setMouseFocusOffer} offer={offer} />
-                      </Link>
+                      <CardIcon key={keyValue} setChoosenOffer = {setChoosenOffer} setMouseFocusOffer = {setMouseFocusOffer} offer={offer} />
                     );
                   })
                 }

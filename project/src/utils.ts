@@ -15,3 +15,9 @@ export const sortOffersByPopular = (offers: OfferType[], choosenCity: string) =>
 
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
+
+export const humanizeDate = (date: string) => {
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const newDate = new Date(date);
+  return `${months[newDate.getMonth()]} ${newDate.getFullYear()}`;
+};

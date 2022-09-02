@@ -1,28 +1,24 @@
 import { useState } from 'react';
 import {Route, Routes} from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import MainPageScreen from '../../pages/main-page-screen/main-page-screen';
+import MainPageScreenEmpty from '../../pages/main-page-screen-empty/main-pge-screen-empty';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import ErrorScreen from '../../pages/error-screen/error-screen';
 import PropertyScreen from '../../pages/property-screen/property-screen';
 import PrivateRoute from '../../components/private-route/private-route';
-import { ReviewType } from '../../types/types';
 import ScrollToTop from '../../components/scroll-to-top/scroll-to-top';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import {isCheckedAuth} from '../../utils';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
-type AppScreenProps = {
-  reviews: ReviewType[];
-}
-
-function App({reviews}: AppScreenProps): JSX.Element {
+function App(): JSX.Element {
   const [choosenOffer, setChoosenOffer] = useState(Object);
   const {authorizationStatus, isDataLoaded, offers} = useAppSelector((state) => state);
-  if (isCheckedAuth(authorizationStatus) || isDataLoaded || !offers.length) {
+  if (isCheckedAuth(authorizationStatus) || isDataLoaded) {
     return (
       <LoadingScreen />
     );
@@ -33,11 +29,13 @@ function App({reviews}: AppScreenProps): JSX.Element {
         <Routes>
           <Route
             path = {AppRoute.Main}
-            element = {<MainPageScreen setChoosenOffer = {setChoosenOffer}/>}
+            element = {offers.length === 0 ? <MainPageScreenEmpty/> : <MainPageScreen setChoosenOffer = {setChoosenOffer}/>}
           />
           <Route
             path = {AppRoute.Login}
-            element = {<LoginScreen />}
+            element = {
+              authorizationStatus === AuthorizationStatus.Auth ? <MainPageScreen setChoosenOffer = {setChoosenOffer}/> : <LoginScreen routeName = {AppRoute.Main}/>
+            }
           />
           <Route
             path = {AppRoute.Favorites}
@@ -54,7 +52,6 @@ function App({reviews}: AppScreenProps): JSX.Element {
             element = {
               <PropertyScreen
                 offer = {choosenOffer}
-                reviews = {reviews}
                 setChoosenOffer = {setChoosenOffer}
               />
             }

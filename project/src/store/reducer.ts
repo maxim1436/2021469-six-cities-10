@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setFavoriteOffers, setNearbyOffers, setUserData, changeCityName, getFilteredOffers, sortByPopular, sortByLowToHigh, sortByHighToLow, sortByTopRatedFirst, loadOffers, requireAuthorization, setError, setDataLoadedStatus } from './action';
+import { setComments, getNewFavoriteProperty, setFavoriteOffers, setNearbyOffers, setUserData, changeCityName, getFilteredOffers, sortByPopular, sortByLowToHigh, sortByHighToLow, sortByTopRatedFirst, loadOffers, requireAuthorization, setError, setDataLoadedStatus } from './action';
 import { selectOffersPriceUp, selectOffersPriceDown, selectOffersRatingDown, selectOffersByPopular } from './selectors';
-import { OfferType } from '../types/types';
+import { OfferType, ReviewType } from '../types/types';
 import { AuthorizationStatus } from '../const';
 import { UserData } from '../types/user-data';
 
@@ -15,6 +15,7 @@ type InitialState = {
   isDataLoaded: boolean,
   error: string | null,
   user: UserData,
+  reviews: ReviewType[],
 }
 
 const initialState: InitialState = {
@@ -28,10 +29,10 @@ const initialState: InitialState = {
   error: null,
   user: {
     email: '',
-    password: '',
     token: '',
     id: 0
-  }
+  },
+  reviews: [],
 };
 
 export const reducer = createReducer (initialState, (builder) => {
@@ -67,13 +68,21 @@ export const reducer = createReducer (initialState, (builder) => {
     })
     .addCase(setUserData, (state, action) => {
       state.user.email = action.payload.email;
-      state.user.password = action.payload.password;
     })
     .addCase(setNearbyOffers, (state, action) => {
       state.nearbyOffers = action.payload;
     })
     .addCase(setFavoriteOffers, (state, action) => {
       state.favoriteOffers = action.payload;
+    })
+    .addCase(getNewFavoriteProperty, (state, action) => {
+      const deleteIndex = state.offers.findIndex((offer) => offer.id === action.payload.id);
+      const deleteIndexForSourcedOffers = state.sourcedOffers.findIndex((offer) => offer.id === action.payload.id);
+      state.offers.splice(deleteIndex, 1, action.payload);
+      state.sourcedOffers.splice(deleteIndexForSourcedOffers, 1, action.payload);
+    })
+    .addCase(setComments, (state, action) => {
+      state.reviews = action.payload;
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;

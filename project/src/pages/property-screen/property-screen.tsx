@@ -1,4 +1,4 @@
-import { OfferType, ReviewType } from '../../types/types';
+import { OfferType } from '../../types/types';
 import { convertRatingToStars, toUpFirstLetter } from '../../utils';
 import { useAppSelector } from '../../hooks';
 import Review from '../../components/review/review';
@@ -9,25 +9,26 @@ import FavoriteOfferBannerForPropertyScreen from '../../components/favorite-offe
 import NeighbourhoodOffers from '../../components/neighbourhood-offers/neighbourhood-offers';
 import UserInfo from '../../components/user-info/user-info';
 import { AuthorizationStatus } from '../../const';
+import Logo from '../../components/logo/logo';
 
 type PropertyScreenProps = {
   offer: OfferType;
-  reviews: ReviewType[];
   setChoosenOffer: (offerId: OfferType) => void;
 }
 
-function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps): JSX.Element {
-  const {authorizationStatus, offers} = useAppSelector((state) => state);
+function PropertyScreen ({offer, setChoosenOffer}: PropertyScreenProps): JSX.Element {
+  const classNamesForAvatar = (isPro: boolean) => `property__avatar-wrapper ${isPro ? 'property__avatar-wrapper--pro ' : ''} user__avatar-wrapper`;
 
+  const {authorizationStatus, nearbyOffers, reviews} = useAppSelector((state) => state);
   return (
     <div className="page">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
+              {
+                <Logo />
+              }
             </div>
             {
               <UserInfo />
@@ -64,7 +65,7 @@ function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps)
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                {<FavoriteOfferBannerForPropertyScreen isOfferFavorite = {offer.isFavorite}/>}
+                {<FavoriteOfferBannerForPropertyScreen offer={offer}/>}
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
@@ -106,7 +107,7 @@ function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps)
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className={classNamesForAvatar(offer.host.isPro)}>
                     <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
                   </div>
                   <span className="property__user-name">
@@ -126,8 +127,8 @@ function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps)
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ul className="reviews__list">
                   {
-                    reviews.map((review) => {
-                      const keyValue = `${review.userName}-${review.avatar}`;
+                    reviews.slice(0, 10).map((review) => {
+                      const keyValue = `${review.rating}-${review.date}`;
                       return (
                         <Review key={keyValue} review = {review}/>
                       );
@@ -144,23 +145,22 @@ function PropertyScreen ({offer, reviews, setChoosenOffer}: PropertyScreenProps)
           </div>
           <section className="property__map map">
             {
-              <Map
-                mapCenter = {offer}
-                points = {offers}
-                styleSettings = {{height: '579px', width: '1144px', marginLeft: 'auto', marginRight: 'auto'}}
-              />
+              authorizationStatus === AuthorizationStatus.Auth
+                ? <Map mapCenter = {offer} points = {nearbyOffers} styleSettings = {{height: '579px', width: '1144px', marginLeft: 'auto', marginRight: 'auto'}}/>
+                : null
             }
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            {<NeighbourhoodOffers neighbourhoodOffers = {offers} setChoosenOffer = {setChoosenOffer}/>}
+            {<NeighbourhoodOffers neighbourhoodOffers = {nearbyOffers} setChoosenOffer = {setChoosenOffer}/>}
           </section>
         </div>
       </main>
     </div>
   );
 }
+
 
 export default PropertyScreen;

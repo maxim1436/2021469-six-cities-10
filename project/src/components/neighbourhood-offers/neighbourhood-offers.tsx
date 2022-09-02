@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import CardIcon from '../../components/card-icon/card-icon';
 import { OfferType } from '../../types/types';
 
@@ -14,9 +13,7 @@ function NeighbourhoodOffers ({neighbourhoodOffers, setChoosenOffer}: Neighbourh
         neighbourhoodOffers.map((neighbourhoodOffer) => {
           const keyValue = `${neighbourhoodOffer.id}`;
           return (
-            <Link key={keyValue} to={`/offer/:${neighbourhoodOffer.id}`} title={`/offer/:${neighbourhoodOffer.id}`}>
-              <CardIcon setChoosenOffer = {setChoosenOffer} offer={neighbourhoodOffer} />
-            </Link>
+            <CardIcon key={keyValue} setChoosenOffer = {setChoosenOffer} offer={neighbourhoodOffer} />
           );
         })
       }

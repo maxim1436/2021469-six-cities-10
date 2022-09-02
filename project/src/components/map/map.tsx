@@ -26,20 +26,22 @@ const currentCustomIcon = new Icon({
 });
 
 const markerGroupsArray: Array<LayerGroup> = [];
+let prevNeabyOffers: Array<OfferType> = [];
 
 function Map ({selectedPoint, mapCenter, points, styleSettings}: MapProps): JSX.Element {
   const mapRef = useRef(null);
-  const [choosenOffer, setChoosenOffer] = useState({});
+  const [choosenOffer, setChoosenOffer] = useState<OfferType | null>(null);
   const map = useMap(mapRef, mapCenter);
-  if (mapCenter !== choosenOffer) {
+  if (choosenOffer && mapCenter.id !== choosenOffer.id) {
     markerGroupsArray.forEach((group) => {
       group.clearLayers();
     });
     markerGroupsArray.splice(0);
   }
+
   useEffect(() => {
     const markerGroup = leaflet.layerGroup();
-    if (map) {
+    if (map && JSON.stringify(prevNeabyOffers) !== JSON.stringify(points)) {
       points.forEach((point) => {
         const marker = new Marker({
           lat: point.location.latitude,
@@ -54,6 +56,16 @@ function Map ({selectedPoint, mapCenter, points, styleSettings}: MapProps): JSX.
           )
           .addTo(markerGroup);
       });
+
+      if (selectedPoint === undefined) {
+        const marker = new Marker({
+          lat: mapCenter.location.latitude,
+          lng: mapCenter.location.longitude
+        });
+        marker.setIcon(currentCustomIcon).addTo(markerGroup);
+        prevNeabyOffers = points;
+      }
+
       markerGroupsArray.push(markerGroup);
       setChoosenOffer(mapCenter);
       markerGroup.addTo(map);
