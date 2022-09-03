@@ -23,6 +23,7 @@ export enum APIRoute {
   Favorite = '/favorite',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments'
 }
 
 export const URL_MARKER_DEFAULT =
@@ -31,4 +32,4 @@ export const URL_MARKER_DEFAULT =
 export const URL_MARKER_CURRENT =
   'img/pin-active.svg';
 
-export const TIMEOUT_SHOW_ERROR = 3000;
+export const TIMEOUT_SHOW_ERROR = 1500;

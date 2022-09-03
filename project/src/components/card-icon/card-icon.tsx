@@ -2,6 +2,8 @@ import { OfferType } from '../../types/types';
 import { convertRatingToStars, toUpFirstLetter } from '../../utils';
 import PremiumBanner from '../premium-banner/premium-banner';
 import FavoriteOfferBanner from '../favorite-offer-banner/favorite-offer-banner';
+import { Link } from 'react-router-dom';
+import { fetchNearbyOffersAction, fetchCommentsAction } from '../../services/api-actions';
 
 const FIRST_INDEX_ELEMENT = 0;
 
@@ -12,7 +14,6 @@ type CardIconProps = {
 }
 
 function CardIcon ({offer, setMouseFocusOffer, setChoosenOffer}: CardIconProps): JSX.Element {
-
   const onMouseEnter = () => {
     if(setMouseFocusOffer) {
       setMouseFocusOffer(offer);
@@ -20,11 +21,13 @@ function CardIcon ({offer, setMouseFocusOffer, setChoosenOffer}: CardIconProps):
   };
 
   const onClick = () => {
+    fetchNearbyOffersAction(offer.id);
+    fetchCommentsAction(offer.id);
     setChoosenOffer(offer);
   };
 
   return (
-    <article onMouseEnter={onMouseEnter} onClick = {onClick} className="cities__card place-card">
+    <article onMouseEnter={onMouseEnter} className="cities__card place-card">
       {
         offer.isPremium
           ? < PremiumBanner/>
@@ -41,7 +44,7 @@ function CardIcon ({offer, setMouseFocusOffer, setChoosenOffer}: CardIconProps):
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          {<FavoriteOfferBanner isOfferFavorite = {offer.isFavorite}/>}
+          {<FavoriteOfferBanner offer = {offer}/>}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -49,9 +52,11 @@ function CardIcon ({offer, setMouseFocusOffer, setChoosenOffer}: CardIconProps):
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name">
-          <a href="/#">{offer.title}</a>
-        </h2>
+        <Link to={`/offer/:${offer.id}`} title={`/offer/:${offer.id}`}>
+          <h2 className="place-card__name" onClick = {onClick}>
+            <a href="/#">{offer.title}</a>
+          </h2>
+        </Link>
         <p className="place-card__type">{toUpFirstLetter(offer.type)}</p>
       </div>
     </article>
