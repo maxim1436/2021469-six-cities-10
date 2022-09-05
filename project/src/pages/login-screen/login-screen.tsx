@@ -1,9 +1,9 @@
-import {useRef, FormEvent} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {useAppDispatch} from '../../hooks';
-import {loginAction} from '../../services/api-actions';
-import {AuthData} from '../../types/auth-data';
-import {AppRoute} from '../../const';
+import { useRef, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks';
+import { loginAction } from '../../services/api-actions';
+import { AuthData } from '../../types/auth-data';
+import { AppRoute } from '../../const';
 import Logo from '../../components/logo/logo';
 
 type LoginScreenProps = {

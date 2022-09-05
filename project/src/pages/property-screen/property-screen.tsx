@@ -1,5 +1,5 @@
 import { OfferType } from '../../types/types';
-import { convertRatingToStars, toUpFirstLetter } from '../../utils';
+import { convertRatingToStars, toUpFirstLetter, sortReviewDateUp } from '../../utils';
 import { useAppSelector } from '../../hooks';
 import Review from '../../components/review/review';
 import ReviewForm from '../../components/review-form/review-form';
@@ -127,17 +127,18 @@ function PropertyScreen ({offer, setChoosenOffer}: PropertyScreenProps): JSX.Ele
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ul className="reviews__list">
                   {
-                    reviews.slice(0, 10).map((review) => {
-                      const keyValue = `${review.rating}-${review.date}`;
-                      return (
-                        <Review key={keyValue} review = {review}/>
-                      );
-                    })
+                    reviews.slice(0, 10).sort(sortReviewDateUp)
+                      .map((review) => {
+                        const keyValue = `${review.rating}-${review.date}-${review.id}`;
+                        return (
+                          <Review key={keyValue} review = {review}/>
+                        );
+                      })
                   }
                 </ul>
                 {
                   authorizationStatus === AuthorizationStatus.Auth
-                    ? <ReviewForm />
+                    ? <ReviewForm offerId = {offer.id}/>
                     : null
                 }
               </section>

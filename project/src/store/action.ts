@@ -35,3 +35,6 @@ export const getNewFavoriteProperty = createAction<OfferType>('getNewFavoritePro
 export const setFavoriteOffers = createAction<OfferType[]>('setFavoritebyOffers');
 
 export const setComments = createAction<ReviewType[]>('setComments');
+
+export const setCommentAddedStatus = createAction<boolean>('setCommentAddedStatus');
+

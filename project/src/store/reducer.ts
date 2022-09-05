@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setComments, getNewFavoriteProperty, setFavoriteOffers, setNearbyOffers, setUserData, changeCityName, getFilteredOffers, sortByPopular, sortByLowToHigh, sortByHighToLow, sortByTopRatedFirst, loadOffers, requireAuthorization, setError, setDataLoadedStatus } from './action';
+import { setCommentAddedStatus, setComments, getNewFavoriteProperty, setFavoriteOffers, setNearbyOffers, setUserData, changeCityName, getFilteredOffers, sortByPopular, sortByLowToHigh, sortByHighToLow, sortByTopRatedFirst, loadOffers, requireAuthorization, setError, setDataLoadedStatus } from './action';
 import { selectOffersPriceUp, selectOffersPriceDown, selectOffersRatingDown, selectOffersByPopular } from './selectors';
 import { OfferType, ReviewType } from '../types/types';
 import { AuthorizationStatus } from '../const';
@@ -13,6 +13,7 @@ type InitialState = {
   favoriteOffers: OfferType[],
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
+  isCommentAdded: boolean,
   error: string | null,
   user: UserData,
   reviews: ReviewType[],
@@ -26,6 +27,7 @@ const initialState: InitialState = {
   favoriteOffers: [],
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
+  isCommentAdded: false,
   error: null,
   user: {
     email: '',
@@ -83,6 +85,9 @@ export const reducer = createReducer (initialState, (builder) => {
     })
     .addCase(setComments, (state, action) => {
       state.reviews = action.payload;
+    })
+    .addCase(setCommentAddedStatus, (state, action) => {
+      state.isCommentAdded = action.payload;
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;

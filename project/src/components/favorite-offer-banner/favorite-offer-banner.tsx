@@ -2,7 +2,7 @@ import { OfferType } from '../../types/types';
 import { useState } from 'react';
 import { useAppSelector } from '../../hooks';
 import { AuthorizationStatus, AppRoute } from '../../const';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { postNewFavoriteProperty } from '../../services/api-actions';
 
 type FavoriteOfferBannerProps = {
